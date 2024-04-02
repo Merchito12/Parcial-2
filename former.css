@@ -1,0 +1,101 @@
+:root
+{
+    --colorTextos: #2196f3;
+}
+
+body
+{
+    background: #4568Dc;
+    background: linear-gradient(
+        to right,
+        #B06AB3, 
+        #4568DC
+    );
+    font-style: italic;
+    margin: 0;
+    padding: 0 10%;
+    justify-content: center;
+    display: flex;
+}
+section
+{
+    display:flex;
+
+}
+#Titulo
+{
+    text-align: center;
+    font-weight: 700;
+}
+form
+{
+    background: white;
+    padding: 40px 0;/*padding de 40px arriba y abajo y 0 a los lados*/
+    border-radius: 10px;
+}
+form .grupo
+{
+    position: relative;
+    margin: 45px;  
+}
+input
+{
+    background: none;
+    color: #c6c6c6;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;/*pone los elemtos uno debajo del otro*/
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--colorTextos);/*la linea de abajo*/
+}
+input:focus/*Cuando el cursor este sobre los inputs*/
+{
+    outline: none;
+    color: rgb(94, 93, 93);
+}
+label
+{
+    color: black;
+    font-size: 16px;
+}
+form #envia
+{
+    display: block;
+    background: #4568Dc;
+    background: linear-gradient(
+        to right,
+        #B06AB3, 
+        #4568DC
+    );
+    padding: 10px;
+    color: black;
+    border: none;
+    border-bottom: none;
+    border-radius: 10px;
+    width: 80%;
+    margin: 10px auto;
+    height: 40px;
+}
+.Contenido a
+{
+    display: block;
+    text-decoration: none;
+    color: rgb(222, 135, 203);
+    border: none;
+
+    margin: 10px auto;
+
+}
+@media screen 
+{
+    @media(min-width:600px)
+    {
+        form
+        {
+            width: 500px;
+            height: 600px;
+        }
+    }   
+}
+

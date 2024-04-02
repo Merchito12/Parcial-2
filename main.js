@@ -13,10 +13,14 @@ const cocktailList = document.getElementById('cocktailList');
 const favoritos = document.getElementById('favoritos');
 const eliminarfa = document.getElementById("eliminar")
 
+const resultado=document.getElementById('result');
+const enviar=document.getElementById('Enviar');
 
 
 
-
+enviar.addEventListener('click',()=>{
+    window.location.href='formulario.html';
+})
 
 buscarb.addEventListener('click', function () {
     buscarc();
@@ -74,7 +78,9 @@ function buscarc() {
 
                         botonagregar.addEventListener('click', function () {
 
+                            Total(precioOpcion.textContent);
                             favoritoss(opcion);
+                            
                         });
 
                         article.appendChild(botonagregar);
@@ -206,4 +212,14 @@ document.addEventListener('keydown', function (event) {
         buscarc()
     }
 });
+
+function Total(precio)
+{
+    const preci = precio.replace('$', '');
+    let total = parseFloat(resultado.innerText);//obtenemos la info de resultado
+    total += parseFloat(preci);//sumamos
+    resultado.textContent = total.toFixed(2);//agregamos dos decimales
+}
+
+
 window.onload = buscarc();
