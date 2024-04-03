@@ -91,7 +91,7 @@ function buscarc() {
             /*  } */
         });
 
-    mostrarfav();
+
 
 }
 function favoritoss(opcion) {
@@ -109,75 +109,50 @@ function favoritoss(opcion) {
 
 }
 function mostrarfav() {
+
     favoritos.innerHTML = "";
     const keys = Object.keys(localStorage);
     const n = 0;
     fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
 
-    .then(response => response.json())
-    .then(dataPre => {
+        .then(response => response.json())
+        .then(dataPre => {
+
+            var data = dataPre.data;
+            console.log(data);
+            for (i = 0; i < keys.length; i++) {
+                id = keys[i];
+
+                if (data[i].ID = id) {
+                    console.log("id" + id)
+                    console.log("idPRincipal" + data[i].ID)
+                    const opcion = data[i];
+                
+                    const article = document.createElement('article');
+                    article.classList.add('opcion');
+
+                    const idopcion = opcion.idDrink;
+                    const imagenOpcion = document.createElement('img');
+                    imagenOpcion.src = coctel.strDrinkThumb;
+                    
+                    article.appendChild(imagenOpcion);
+
+                    const nombreOpcion = document.createElement('h2');
+                    nombreOpcion.setAttribute('class', 'name');
+                    nombreOpcion.textContent = coctel.strDrink;
+                    article.appendChild(nombreOpcion);
+
+                    const categoriaOpcion = document.createElement('p');
+                    categoriaOpcion.textContent = `Categoría: ${coctel.strCategory}`;
+                    article.appendChild(categoriaOpcion);
 
 
-        var data = dataPre.data;
-        console.log(data);
-
-
-
-    
-    for (i = 0; i < keys.length; i++) {
-        id = keys[i]
-        console.log(id);
-                if(id=data[i].ID){
-            console.log(id)
-            const opcion = data[i];
-            const article = document.createElement('article');
-            article.classList.add('opcion');
-
-            const idopcion = opcion.ID;
-            const imagenopcion = document.createElement('img');
-            imagenopcion.src = opcion.Imagen;
-
-            article.appendChild(imagenopcion);
-
-            const nombreOpcion = document.createElement('h2');
-            nombreOpcion.setAttribute('class', 'name');
-            nombreOpcion.textContent = opcion.Nombre;
-            article.appendChild(nombreOpcion);
-
-            const precioOpcion = document.createElement('h2');
-            precioOpcion.setAttribute('class', 'precio');
-            precioOpcion.textContent = `Precio: $ ${opcion.Precio}`;
-            article.appendChild(precioOpcion);
-
-            const categoriaOpcion = document.createElement('p');
-            categoriaOpcion.textContent = `Categoría: ${opcion.Categoria}`;
-            article.appendChild(categoriaOpcion);
-
-            const descripcionOpcion = document.createElement('p');
-            descripcionOpcion.textContent = `Preparación: ${opcion.Descripcion}`;
-            article.appendChild(descripcionOpcion);
-
-            const botonagregar = document.createElement('button');
-            botonagregar.setAttribute('class', 'btnagregar');
-            botonagregar.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-
-            botonagregar.addEventListener('click', function () {
-
-                favoritoss(opcion);
-            });
-
-            article.appendChild(botonagregar);
-
-
-            cocktailList.appendChild(article);
-        }
-
-
-
-       
-            
-    }
-});
+                    const btneliminar = document.createElement('button');
+                    btnmas.innerHTML = '<i class="fa-solid fa-arrow-down-wide-short"></i>';
+                    article.appendChild(btnmas);
+                    favoritos.appendChild(article);
+                }}  
+        });
 }
 
 
@@ -205,4 +180,4 @@ document.addEventListener('keydown', function (event) {
         buscarc()
     }
 });
-window.onload = buscarc(),mostrarfav();
+window.onload = buscarc(), mostrarfav();
