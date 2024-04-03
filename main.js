@@ -10,13 +10,17 @@ const instrucciones_random = document.querySelector(".instrucciones_random");
 const buscarb = document.getElementById('buscarb');
 const cocktailInput = document.getElementById('input');
 const cocktailList = document.getElementById('cocktailList');
-const favoritos = document.getElementById('favoritos');
+const favi = document.getElementById('favs');
 const eliminarfa = document.getElementById("eliminar")
 
+const resultado=document.getElementById('result');
+const enviar=document.getElementById('Enviar');
 
 
 
-
+enviar.addEventListener('click',()=>{
+    window.location.href='formulario.html';
+})
 
 buscarb.addEventListener('click', function () {
     buscarc();
@@ -24,86 +28,93 @@ buscarb.addEventListener('click', function () {
 function buscarc() {
     cocktailList.innerHTML = "";
     const cocktailInputt = cocktailInput.value;
-
-
-
-
     fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
         .then(response => response.json())
         .then(dataPre => {
             data = dataPre.data;//traigo la info de json
             /* if (data.data) { */
             console.log(data);
-            const idCoctel1 = data[0].ID;
+            const idCoctel1 =data[0].ID;
             console.log(idCoctel1)
-            for (let n = 0; n < 10; n++) {
-                if (data[n].ID != null) {
-                    const opcion = data[n];
-                    const article = document.createElement('article');
-                    article.classList.add('opcion');
+                for (let n = 0; n < 10; n++) {
+                    if (data[n].ID != null) 
+                    {
+                        const opcion = data[n];
+                        const article = document.createElement('article');
+                        article.classList.add('opcion');
 
-                    const idopcion = opcion.ID;
-                    const imagenopcion = document.createElement('img');
-                    imagenopcion.src = opcion.Imagen;
+                        const idopcion = opcion.ID;
+                        const imagenopcion = document.createElement('img');
+                        imagenopcion.src = opcion.Imagen;
+                       
+                        article.appendChild(imagenopcion);
 
-                    article.appendChild(imagenopcion);
+                        const nombreOpcion = document.createElement('h2');
+                        nombreOpcion.setAttribute('class', 'name');
+                        nombreOpcion.textContent = opcion.Nombre;
+                        article.appendChild(nombreOpcion);
 
-                    const nombreOpcion = document.createElement('h2');
-                    nombreOpcion.setAttribute('class', 'name');
-                    nombreOpcion.textContent = opcion.Nombre;
-                    article.appendChild(nombreOpcion);
+                        const precioOpcion = document.createElement('h2');
+                        precioOpcion.setAttribute('class', 'precio');
+                        precioOpcion.textContent = `Precio: $ ${opcion.Precio}`;
+                        article.appendChild(precioOpcion);
 
-                    const precioOpcion = document.createElement('h2');
-                    precioOpcion.setAttribute('class', 'precio');
-                    precioOpcion.textContent = `Precio: $ ${opcion.Precio}`;
-                    article.appendChild(precioOpcion);
+                        const categoriaOpcion = document.createElement('p');
+                        categoriaOpcion.textContent = `Categoría: ${opcion.Categoria}`;
+                        article.appendChild(categoriaOpcion);
 
-                    const categoriaOpcion = document.createElement('p');
-                    categoriaOpcion.textContent = `Categoría: ${opcion.Categoria}`;
-                    article.appendChild(categoriaOpcion);
+            
+                        const descripcionOpcion = document.createElement('p');
+                        descripcionOpcion.textContent = `Preparación: ${opcion.Descripcion}`;
+                        article.appendChild(descripcionOpcion);
+
+                        const botonagregar = document.createElement('button');
+                        botonagregar.setAttribute('class', 'btnagregar');
+                        botonagregar.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+
+                        botonagregar.addEventListener('click', function () {
+
+                            Total(opcion.Precio);
+                            console.log(imagenopcion.src,nombreOpcion.textContent,opcion.Categoria);
+                            agregarCarrito(imagenopcion.src,nombreOpcion.textContent,opcion.Categoria);
+                            //favoritoss(opcion);
+                            
+                        });
+
+                        eliminarfa.addEventListener('click', function () {
+
+                            eliminarf(opcion.Precio);
+                            
+                        
+                        });
+
+                        article.appendChild(botonagregar);
 
 
+                        cocktailList.appendChild(article);
 
-                    const descripcionOpcion = document.createElement('p');
-                    descripcionOpcion.textContent = `Preparación: ${opcion.Descripcion}`;
-                    article.appendChild(descripcionOpcion);
+                    } else {
+                        console.log("no encontrado")
+                    }
 
-                    const botonagregar = document.createElement('button');
-                    botonagregar.setAttribute('class', 'btnagregar');
-                    botonagregar.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-
-                    botonagregar.addEventListener('click', function () {
-
-                        favoritoss(opcion);
-                    });
-
-                    article.appendChild(botonagregar);
-
-
-                    cocktailList.appendChild(article);
-
-                } else {
-                    console.log("no encontrado")
                 }
 
-            }
-
-            /*  } */
+           /*  } */
         });
 
-    mostrarfav();
+    //mostrarfav();
 
 }
-function favoritoss(opcion) {
+function favoritoss(coctel) {
     favoritos.innerHTML = "";
     const n = 0;
-    const idDeOpcion = opcion.ID;
-    const nombreOpcion = opcion.Nombre;
+    const idDelCoctel = coctel.idDrink;
+    const nombreDelCoctel = coctel.strDrink;    
 
-    localStorage.setItem(idDeOpcion, nombreOpcion)
+    localStorage.setItem(idDelCoctel, nombreDelCoctel)
 
-    alert(`Se ha agregado al carrito el cóctel: ${nombreOpcion}!`);
-    ids = localStorage.getItem(idDeOpcion)
+    alert(`Se ha agregado al carrito el cóctel: ${nombreDelCoctel}!`);
+    ids = localStorage.getItem(idDelCoctel)
 
     mostrarfav();
 
@@ -112,90 +123,89 @@ function mostrarfav() {
     favoritos.innerHTML = "";
     const keys = Object.keys(localStorage);
     const n = 0;
-    fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
-
-    .then(response => response.json())
-    .then(dataPre => {
-
-
-        var data = dataPre.data;
-        console.log(data);
-
-
-
-    
     for (i = 0; i < keys.length; i++) {
         id = keys[i]
-        console.log(id);
-                if(id=data[i].ID){
-            console.log(id)
-            const opcion = data[i];
-            const article = document.createElement('article');
-            article.classList.add('opcion');
 
-            const idopcion = opcion.ID;
-            const imagenopcion = document.createElement('img');
-            imagenopcion.src = opcion.Imagen;
+        const baseUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=";
+        const completeUrli = `${baseUrl}${id}`;
+        fetch(completeUrli)
+            .then(response=>response.json())
+            .then(data => {
+                if (data.drinks[n].strDrink != null) 
+                {
+                    const coctel = data.drinks[n];
+                    const article = document.createElement('article');
+                    article.classList.add('coctel');
 
-            article.appendChild(imagenopcion);
+                    const idCoctel = coctel.idDrink;
+                    const imagenCoctel = document.createElement('img');
+                    imagenCoctel.src = coctel.strDrinkThumb;
+                    imagenCoctel.alt = coctel.strDrink;
+                    article.appendChild(imagenCoctel);
 
-            const nombreOpcion = document.createElement('h2');
-            nombreOpcion.setAttribute('class', 'name');
-            nombreOpcion.textContent = opcion.Nombre;
-            article.appendChild(nombreOpcion);
+                    const nombreCoctel = document.createElement('h2');
+                    nombreCoctel.setAttribute('class', 'name');
+                    nombreCoctel.textContent = coctel.strDrink;
+                    article.appendChild(nombreCoctel);
 
-            const precioOpcion = document.createElement('h2');
-            precioOpcion.setAttribute('class', 'precio');
-            precioOpcion.textContent = `Precio: $ ${opcion.Precio}`;
-            article.appendChild(precioOpcion);
-
-            const categoriaOpcion = document.createElement('p');
-            categoriaOpcion.textContent = `Categoría: ${opcion.Categoria}`;
-            article.appendChild(categoriaOpcion);
-
-            const descripcionOpcion = document.createElement('p');
-            descripcionOpcion.textContent = `Preparación: ${opcion.Descripcion}`;
-            article.appendChild(descripcionOpcion);
-
-            const botonagregar = document.createElement('button');
-            botonagregar.setAttribute('class', 'btnagregar');
-            botonagregar.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
-
-            botonagregar.addEventListener('click', function () {
-
-                favoritoss(opcion);
-            });
-
-            article.appendChild(botonagregar);
+                    const categoriaCoctel = document.createElement('p');
+                    categoriaCoctel.textContent = `Categoría: ${coctel.strCategory}`;
+                    article.appendChild(categoriaCoctel);
 
 
-            cocktailList.appendChild(article);
-        }
+                    const btnmas = document.createElement('button');
+                    btnmas.innerHTML = '<i class="fa-solid fa-arrow-down-wide-short"></i>';
+                    article.appendChild(btnmas);
+                    favoritos.appendChild(article);
+                    btnmas.addEventListener('click', function () {
+                        const subArticle = document.createElement('article');
+
+                        if (subArticle.childElementCount === 0) {
+                            console.log(subArticle.childElementCount)
+                            // El subartículo está vacío, se puede agregar contenido
+                            const ingredientesCoctel = document.createElement('ul');
+                            for (let i = 1; i < 15; i++) {
+                                if (coctel[`strIngredient${i}`]) {
+                                    const ingredienteCoctel = document.createElement('li');
+                                    ingredienteCoctel.textContent = `- ${coctel[`strIngredient${i}`]}`;
+                                    ingredientesCoctel.appendChild(ingredienteCoctel);
+                                }
+                            }
+                            subArticle.appendChild(ingredientesCoctel);
+
+                            const instruccionesCoctel = document.createElement('p');
+                            instruccionesCoctel.textContent = `Preparación: ${coctel.strInstructions}`;
+                            subArticle.appendChild(instruccionesCoctel);
+
+                            // Agregar el nuevo artículo secundario al artículo principal
+                            article.appendChild(subArticle);
+                        } else {
+                            // El subartículo ya tiene contenido, limpiarlo
+                            subArticle.innerHTML = '';
 
 
+                        }
+                    });
 
-       
-            
+                }
+            })
     }
-});
 }
 
 
-
-eliminarfa.addEventListener('click', function () {
-
-    eliminarf();
-});
-function eliminarf() {
-    if (window.confirm('¿Estás seguro de que deseas eliminar los favoritos?')) {
+function eliminarf(precio) {
+    if (window.confirm('¿Estás seguro de que deseas eliminar los favoritos?')) 
+    {
         localStorage.clear();
-        mostrarfav();
+        let resta = parseFloat(resultado.innerText);
+        resta -= parseFloat(precio);
+        resultado.textContent = resta.toFixed(2);
+        //mostrarfav();
 
-    } else {
-
+    } else 
+    {
+        console.log("ok");
     }
-
-
 
 }
 document.addEventListener('keydown', function (event) {
@@ -205,4 +215,49 @@ document.addEventListener('keydown', function (event) {
         buscarc()
     }
 });
-window.onload = buscarc(),mostrarfav();
+
+function Total(precio)
+{
+    const preci = precio;
+    //console.log(preci);
+    let total = parseFloat(resultado.innerText);//obtenemos la info de resultado
+    total += parseFloat(preci);//sumamos
+    resultado.textContent = total.toFixed(2);//agregamos dos decimales
+}
+function agregarCarrito(imagen,Nombre,Categoria)
+{
+    const expandible=document.createElement("div");
+    const boton=document.createElement("button");
+    const verMenos=document.createElement("button");
+    const nombre=document.createTextNode(Nombre);
+    const categoria=document.createTextNode(Categoria);
+    const Imagen=document.createElement("img");
+    Imagen.src=imagen;
+    boton.textContent="ver mas";
+    verMenos.textContent="ver menos";
+
+    expandible.style.backgroundColor="orange";
+    expandible.appendChild(nombre);
+    expandible.appendChild(categoria);
+    expandible.appendChild(Imagen);
+    expandible.appendChild(verMenos);
+
+    expandible.style.display="none";
+
+    favi.appendChild(boton);
+    favi.appendChild(expandible);
+    boton.addEventListener('click',()=>{
+        expandible.style.display="block";
+        expandible.style.height="auto";
+        boton.style.display="none";
+    })
+
+    verMenos.addEventListener('click',()=>{
+        expandible.style.display="none";
+        boton.style.display="block";
+        favi.appendChild(boton);
+    })
+
+}
+
+window.onload = buscarc();
