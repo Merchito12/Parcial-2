@@ -102,7 +102,7 @@ function buscarc() {
            /*  } */
         });
 
-    //mostrarfav();
+
 
 }
 function favoritoss(coctel) {
@@ -120,82 +120,83 @@ function favoritoss(coctel) {
 
 }
 function mostrarfav() {
+
     favoritos.innerHTML = "";
     const keys = Object.keys(localStorage);
     const n = 0;
-    for (i = 0; i < keys.length; i++) {
-        id = keys[i]
+    fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
 
-        const baseUrl = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=";
-        const completeUrli = `${baseUrl}${id}`;
-        fetch(completeUrli)
-            .then(response=>response.json())
-            .then(data => {
-                if (data.drinks[n].strDrink != null) 
-                {
-                    const coctel = data.drinks[n];
+        .then(response => response.json())
+        .then(dataPre => {
+
+            var data = dataPre.data;
+            console.log(data);
+            for (i = 0; i < keys.length; i++) {
+                id = keys[i];
+
+                if (data[i].ID = id) {
+                    console.log("id" + id)
+                    console.log("idPRincipal" + data[i].ID)
+                    const opcion = data[i];
+                
                     const article = document.createElement('article');
-                    article.classList.add('coctel');
+                    article.classList.add('opcion');
 
-                    const idCoctel = coctel.idDrink;
-                    const imagenCoctel = document.createElement('img');
-                    imagenCoctel.src = coctel.strDrinkThumb;
-                    imagenCoctel.alt = coctel.strDrink;
-                    article.appendChild(imagenCoctel);
+            const idopcion = opcion.ID;
+            const imagenopcion = document.createElement('img');
+            imagenopcion.src = opcion.Imagen;
 
-                    const nombreCoctel = document.createElement('h2');
-                    nombreCoctel.setAttribute('class', 'name');
-                    nombreCoctel.textContent = coctel.strDrink;
-                    article.appendChild(nombreCoctel);
+            article.appendChild(imagenopcion);
 
-                    const categoriaCoctel = document.createElement('p');
-                    categoriaCoctel.textContent = `Categoría: ${coctel.strCategory}`;
-                    article.appendChild(categoriaCoctel);
+            const nombreOpcion = document.createElement('h2');
+            nombreOpcion.setAttribute('class', 'name');
+            nombreOpcion.textContent = opcion.Nombre;
+            article.appendChild(nombreOpcion);
 
+            const precioOpcion = document.createElement('h2');
+            precioOpcion.setAttribute('class', 'precio');
+            precioOpcion.textContent = `Precio: $ ${opcion.Precio}`;
+            article.appendChild(precioOpcion);
 
-                    const btnmas = document.createElement('button');
-                    btnmas.innerHTML = '<i class="fa-solid fa-arrow-down-wide-short"></i>';
-                    article.appendChild(btnmas);
-                    favoritos.appendChild(article);
-                    btnmas.addEventListener('click', function () {
-                        const subArticle = document.createElement('article');
+            const categoriaOpcion = document.createElement('p');
+            categoriaOpcion.textContent = `Categoría: ${opcion.Categoria}`;
+            article.appendChild(categoriaOpcion);
 
-                        if (subArticle.childElementCount === 0) {
-                            console.log(subArticle.childElementCount)
-                            // El subartículo está vacío, se puede agregar contenido
-                            const ingredientesCoctel = document.createElement('ul');
-                            for (let i = 1; i < 15; i++) {
-                                if (coctel[`strIngredient${i}`]) {
-                                    const ingredienteCoctel = document.createElement('li');
-                                    ingredienteCoctel.textContent = `- ${coctel[`strIngredient${i}`]}`;
-                                    ingredientesCoctel.appendChild(ingredienteCoctel);
-                                }
-                            }
-                            subArticle.appendChild(ingredientesCoctel);
+            const descripcionOpcion = document.createElement('p');
+            descripcionOpcion.textContent = `Preparación: ${opcion.Descripcion}`;
+            article.appendChild(descripcionOpcion);
 
-                            const instruccionesCoctel = document.createElement('p');
-                            instruccionesCoctel.textContent = `Preparación: ${coctel.strInstructions}`;
-                            subArticle.appendChild(instruccionesCoctel);
+            const botonagregar = document.createElement('button');
+            botonagregar.setAttribute('class', 'btnagregar');
+            botonagregar.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
 
-                            // Agregar el nuevo artículo secundario al artículo principal
-                            article.appendChild(subArticle);
-                        } else {
-                            // El subartículo ya tiene contenido, limpiarlo
-                            subArticle.innerHTML = '';
+            botonagregar.addEventListener('click', function () {
+
+                favoritoss(opcion);
+            });
+
+            article.appendChild(botonagregar);
 
 
-                        }
-                    });
+            cocktailList.appendChild(article);
+        }
 
-                }
-            })
+
+
+       
+            
     }
+});
 }
 
 
-function eliminarf(precio) {
-    if (window.confirm('¿Estás seguro de que deseas eliminar los favoritos?')) 
-    {
+
+eliminarfa.addEventListener('click', function () {
+
+    eliminarf();
+});
+function eliminarf() {
+    if (window.confirm('¿Estás seguro de que deseas eliminar los favoritos?')) {
         localStorage.clear();
         let resta = parseFloat(resultado.innerText);
         resta -= parseFloat(precio);
@@ -261,3 +262,5 @@ function agregarCarrito(imagen,Nombre,Categoria)
 }
 
 window.onload = buscarc();
+
+window.onload = buscarc(), mostrarfav();
