@@ -8,6 +8,11 @@ const instrucciones_random = document.querySelector(".instrucciones_random");
 const buscarb = document.getElementById('buscarb');
 const favi = document.getElementById('favs');
 const eliminarfa = document.getElementById("eliminar")
+
+const entradasbtn = document.getElementById("Entradas")
+const platosbtn = document.getElementById("PlatosPrincipales")
+const bebidasbtn = document.getElementById("Bebidas")
+const postresbtn = document.getElementById("Postres")
 const resultado = document.getElementById('result');
 const enviar = document.getElementById('Enviar');
 const foodInput = document.getElementById('input');
@@ -48,10 +53,107 @@ function guardarLocal(opcion) {
     let ids = localStorage.getItem(idFood)
     mostrarfav();
 }
-eliminarfa.addEventListener('click', function () {
-    eliminarf();
-});
 
+
+function mostrarcategoria(categoria){
+    let categoriase= categoria;
+    foodList.innerHTML = "";
+    foodList.innerHTML = "Cargando...";
+    const loadingMessage = document.createElement('h1');
+  loadingMessage.textContent = 'Cargando...';
+  favi.appendChild(loadingMessage);
+    fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
+        .then(response => response.json())
+        .then(dataPre => {
+            let data = dataPre.data;//traigo la info de json
+            console.log(data);
+            foodList.innerHTML = "";
+            for (let n = 0; n < 14; n++) {
+               /*  console.log(data[n].Categoria);
+                console.log(categoriase); */
+                if (data[n].Categoria == categoriase) {
+                    
+                    const opcion = data[n];
+                    
+                    
+                    
+                    cate(opcion);
+
+                } else {
+                    /* console.log("no encontrado") */
+                }
+            }
+        });
+
+}
+entradasbtn.addEventListener('click', function () {
+    mostrarcategoria("Entradas");
+});
+platosbtn.addEventListener('click', function () {
+    mostrarcategoria("Plato principal");
+});
+bebidasbtn.addEventListener('click', function () {
+    mostrarcategoria("Bebidas");
+});
+postresbtn.addEventListener('click', function () {
+    mostrarcategoria("Postres");
+});
+function cate(opcion) {
+    /* console.log(opcion.Categoria); */
+    
+   
+     
+        const article = document.createElement('article');
+        article.classList.add('opcion');
+    
+        const idopcion = opcion.ID;
+        const imagenopcion = document.createElement('img');
+        imagenopcion.src = opcion.Imagen;
+        article.appendChild(imagenopcion);
+    
+        const nombreOpcion = document.createElement('h2');
+        nombreOpcion.setAttribute('class', 'name');
+        nombreOpcion.textContent = opcion.Nombre;
+        article.appendChild(nombreOpcion);
+    
+        const precioOpcion = document.createElement('h2');
+        precioOpcion.setAttribute('class', 'precio');
+        precioOpcion.textContent = `Precio: $ ${opcion.Precio}`;
+        article.appendChild(precioOpcion);
+    
+        const categoriaOpcion = document.createElement('p');
+        categoriaOpcion.textContent = `Categoría: ${opcion.Categoria}`;
+        article.appendChild(categoriaOpcion);
+    
+    
+        const descripcionOpcion = document.createElement('p');
+        descripcionOpcion.textContent = `Preparación: ${opcion.Descripcion}`;
+        article.appendChild(descripcionOpcion);
+    
+        const botonagregar = document.createElement('button');
+        botonagregar.setAttribute('class', 'btnagregar');
+        botonagregar.innerHTML = '<i class="fa-solid fa-plus"></i>';
+    
+        article.appendChild(botonagregar);
+        foodList.appendChild(article);
+    
+        //console.log(n,opcion.Nombre);
+        botonagregar.addEventListener('click', () => {
+    
+    
+    
+            //console.log(imagenopcion.src,nombreOpcion.textContent,opcion.Categoria);
+            guardarLocal(opcion);
+    
+    
+    
+            //favoritoss(opcion);
+    
+        });
+    
+
+    
+}
 function mostrarfav() {
     favi.innerHTML = "";
     favi.innerHTML = "Cargando...";
@@ -75,7 +177,7 @@ function mostrarfav() {
                 const idopcion = opcion.ID;
                 const imagenopcion = document.createElement('img');
                 imagenopcion.src = opcion.Imagen;
-                console.log(imagenopcion);
+              
                 article.appendChild(imagenopcion);
 
                 const nombreOpcion = document.createElement('h2');
@@ -103,7 +205,9 @@ function mostrarfav() {
 
         });
 }
-
+eliminarfa.addEventListener('click', function () {
+    eliminarf();
+});
 function eliminarf() {
     if (window.confirm('¿Estás seguro de que deseas eliminar los favoritos?')) {
         localStorage.clear();
@@ -119,7 +223,7 @@ function eliminarf() {
 function Total(precio) {
 
     const preci = precio;
-    console.log(preci);
+   
     let total = parseFloat(resultado.innerText);//obtenemos la info de resultado
     total += parseFloat(preci);//sumamos
     resultado.textContent = total.toFixed(2);//agregamos dos decimales
