@@ -17,14 +17,20 @@ const entradas = document.getElementById('entrad');
 
 function buscarc() {
     foodList.innerHTML = "";
+    foodList.innerHTML = "Cargando...";
+    const loadingMessage = document.createElement('h1');
+  loadingMessage.textContent = 'Cargando...';
+  favi.appendChild(loadingMessage);
     fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
         .then(response => response.json())
         .then(dataPre => {
             let data = dataPre.data;//traigo la info de json
             console.log(data);
+            foodList.innerHTML = "";
             for (let n = 0; n < 10; n++) {
                 if (data[n].ID != null) {
                     const opcion = data[n];
+                    
                     elementos(opcion);
 
                 } else {
@@ -37,7 +43,7 @@ function guardarLocal(opcion) {
     favi.innerHTML = "";
     const idFood = opcion.ID;
     const nombre = opcion.Nombre;
-    localStorage.setItem(idFood, JSON.stringify(pedidos))
+    localStorage.setItem(idFood,"")
     alert(`Se ha agregado al carrito el cóctel: ${nombre}!`);
     let ids = localStorage.getItem(idFood)
     mostrarfav();
@@ -48,6 +54,7 @@ eliminarfa.addEventListener('click', function () {
 
 function mostrarfav() {
     favi.innerHTML = "";
+    favi.innerHTML = "Cargando...";
     const keys = Object.keys(localStorage);
     fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
 
@@ -56,7 +63,7 @@ function mostrarfav() {
             console
             var data = dataPre.data;
             console.log(data);
-
+            favi.innerHTML = "";
             for (let h = 0; h < keys.length; h++) {
                 let id = keys[h];
                 const opcion = data[id - 1];
