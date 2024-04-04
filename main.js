@@ -17,6 +17,7 @@ const resultado=document.getElementById('result');
 const enviar=document.getElementById('Enviar');
 const foodInput = document.getElementById('input');
 const foodList = document.getElementById('foodlList');
+const entradas=document.getElementById('entrad');
 const pedidos=[];
 
 
@@ -65,9 +66,19 @@ function guardarLocal(opcion)
     favi.innerHTML = "";
     const idFood = opcion.ID;
     const nombre = opcion.Nombre;    
-    localStorage.setItem(idFood, JSON.stringify(nombre))
+
+    const elemfavo={//objeto para guardar los elementos favoritos
+        Name:opcion.Nombre,
+        ID:opcion.ID,
+        Price:opcion.Precio,
+        Total:resultado.textContent
+        
+    }
+    pedidos.push(elemfavo);
+    console.log(pedidos);
+    localStorage.setItem(idFood, JSON.stringify(pedidos))
     alert(`Se ha agregado al carrito el cóctel: ${nombre}!`);
-    ids = localStorage.getItem(idFood)
+    let ids = localStorage.getItem(idFood)
     //mostrarfav();
 }
 function mostrarfav() {
@@ -134,6 +145,7 @@ function Total(precio)
     let total = parseFloat(resultado.innerText);//obtenemos la info de resultado
     total += parseFloat(preci);//sumamos
     resultado.textContent = total.toFixed(2);//agregamos dos decimales
+
 }
 function agregarCarrito(imagen,Nombre,Categoria)
 {
@@ -243,25 +255,45 @@ function elementos(opcion)
 
         
         Total(opcion.Precio);
-        console.log(imagenopcion.src,nombreOpcion.textContent,opcion.Categoria);
+        //console.log(imagenopcion.src,nombreOpcion.textContent,opcion.Categoria);
         guardarLocal(opcion);
         agregarCarrito(imagenopcion.src,nombreOpcion.textContent,opcion.Categoria);
-        agregarPedido(nombreOpcion.textContent);
+        
         //favoritoss(opcion);
                             
     });
 }
-function agregarPedido(nombre) 
-{
-    pedidos.push(nombre);
-    console.log(pedidos); 
-}
-
 
 function send()
 {
     enviar.addEventListener('click',()=>{
         window.location.href='formulario.html';
+    })
+}
+
+function menues()
+{
+    switch (key) 
+    {
+        case value:
+            
+            break;
+    
+        default:
+            break;
+    }
+}
+function entrada()
+{
+    let URL='https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec';
+    fetch(URL)
+        .then(response=>response.json)
+        .then(dataPre)
+        let data=dataPre.data;
+        
+
+    entradas.addEventListener('click',()=>{
+
     })
 }
 window.onload = buscarc(),send();

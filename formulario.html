@@ -11,14 +11,14 @@
 
     <main class="Contenido">
         <section>
-            <form method="post">
+            <form id="form" method="POST" action="https://script.google.com/macros/s/AKfycbxfVP6M5LAJH7E-gws572KP0dutYUPIFJJ2raJz1QtQgTDi3GVqJDsfMfW8NRNDkh1t/exec">
                 <h1 id="Titulo">
                     Registro 
                 </h1>
 
                 <div class="grupo">
                     <label for="">Nombre:
-                        <input type=""  name="Nombre">
+                        <input type="text"  name="Nombre">
                     </label>
                 </div>
 
@@ -30,20 +30,23 @@
 
                 <div class="grupo">
                     <label for="">Email:
-                        <input type="email" id="email" name="Email">
+                        <input name="Email" type="email" placeholder="Email" required>
                     </label>
                 </div>
 
+                <input type="hidden" id="productosInput" name="Productos">
+                <input type="hidden" id="TotalInput" name="Total">
+
                 <div class="grupo">
                     <label for="">productos:
-                        <article id="produs">
+                        <article id="produs" name="Productos" type="text">
 
                         </article>
                     </label>
                 </div>
 
                 <br>
-                <input id="envia" type="submit" value="enviar">
+                <button id="send" type="submit">Send</button>
                 <br>
                 <a href="index.HTML">REGRESA</a>
             </form>
