@@ -122,7 +122,7 @@ document.getElementById("form").addEventListener("submit", function (event) {
    
     // Realiza la solicitud POST mediante fetch
     fetch(
-      "https://script.google.com/macros/s/AKfycby8LoRQd_XmCsIRMngcTLwUCFeA9Eo7xhhMJCoYAwEeskKbuW2-7_B_bvf3_Xzxv770/exec",
+      "https://script.google.com/macros/s/AKfycbyfysSuLL_1ntzMo01vq27wHC4V6WamrR4IKrCXKpxkEj7JuJ4ocd2rATNOHd0J780_/exec",
       {
         method: "POST",
         body: formData,
