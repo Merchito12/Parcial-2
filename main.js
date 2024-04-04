@@ -17,7 +17,13 @@ const resultado=document.getElementById('result');
 const enviar=document.getElementById('Enviar');
 const foodInput = document.getElementById('input');
 const foodList = document.getElementById('foodlList');
-const entradas=document.getElementById('entrad');
+const entradas=document.getElementById('Entrad');
+
+const modal = document.getElementById('miModal');
+const cerrarModal = document.getElementsByClassName('cerrar')[0];
+const cerrarBoton = document.getElementById('cerrarModal');
+
+const modalContent=document.querySelector('.modal-contenido');
 let pedidos=[];
 
 
@@ -28,6 +34,7 @@ buscarb.addEventListener('click', function () {
 */
 function buscarc() {
     foodList.innerHTML= "";
+    const modall=false;
     fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
         .then(response => response.json())
         .then(dataPre => {
@@ -42,7 +49,7 @@ function buscarc() {
                     if (data[n].ID != null) 
                     {
                         const opcion = data[n];
-                        elementos(opcion);
+                        elementos(opcion,modall);
                         /*
                         eliminarfa.addEventListener('click', function () {
 
@@ -61,7 +68,7 @@ function buscarc() {
 
 
 }
-export function guardarLocal(opcion) 
+function guardarLocal(opcion) 
 {
     favi.innerHTML = "";
     const idFood = opcion.ID;
@@ -86,6 +93,7 @@ function mostrarfav() {
     favi.innerHTML = "";
     const keys = Object.keys(localStorage);
     const n = 0;
+    const modall=false;
     fetch("https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec")
 
         .then(response => response.json())
@@ -101,7 +109,7 @@ function mostrarfav() {
                     console.log("id" + id)
                     console.log("idPRincipal" + data[i].ID)
                     const opcion = data[i];
-                    elementos(opcion);
+                    elementos(opcion,modall);
                 }  
             
     }
@@ -189,7 +197,7 @@ function buscarTeclado()
         .then(response => response.json())
         .then(dataPre => {
 
-            var data = dataPre.data;
+            let data = dataPre.data;
             
             for(let i=0;i<=14;i++)
             {
@@ -213,7 +221,7 @@ function encontrados(data)
     });
 }
 
-function elementos(opcion)
+function elementos(opcion,modall)
 {
 
     const article = document.createElement('article');
@@ -248,8 +256,15 @@ function elementos(opcion)
     botonagregar.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
 
     article.appendChild(botonagregar);
-    foodList.appendChild(article);
-                        
+    if(!modall)
+    {
+        
+        foodList.appendChild(article);
+    }
+    else
+    {
+        modalContent.appendChild(article);
+    }
     //console.log(n,opcion.Nombre);
     botonagregar.addEventListener('click',  ()=>  {
 
@@ -286,20 +301,49 @@ function menues()
 function entrada()
 {
     let URL='https://script.google.com/macros/s/AKfycbz3EPAgZePOY21THYydS3_LH-G1ntkhneenTOSaq257QQzqevuoMXUUt6jV8EOB4JPv/exec';
+    let modall=true;
     fetch(URL)
-        .then(response=>response.json)
-        .then(dataPre)
-        let data=dataPre.data;
-        
+        .then(response=>response.json())
+        .then(dataPre => {
 
-    entradas.addEventListener('click',()=>{
-
-    })
+            let data = dataPre.data;
+            for(let i=0;i<10;i++)
+            {
+                if(data[i].Categoria==='Entradas')
+                {
+                    const opcion=data[i];
+                    elementos(opcion,modall);
+                    foodList.innerHTML+='';
+                }
+            }
+            
+        });
+    
 }
+function mostrarMEnues(opcion)
+{
+
+}
+
 //window.onload = buscarc(),send();
 window.onload=()=>{
     buscarc();
     send();
+    entradas.addEventListener('click',()=>{
+        //entrada();
+        modal.style.display = 'block';
+        entrada();
+    })
+    cerrarModal.addEventListener('click', function() {
+        modal.style.display = 'none';
+        while (contenidoModal.firstChild) //mientras haya un elemento en el contenido
+        {
+            contenidoModal.removeChild(contenidoModal.firstChild);//lo elimina
+        }
+      });
+      cerrarBoton.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
 }
 
 //export {pedidos};//para llevar info a otro archivo
