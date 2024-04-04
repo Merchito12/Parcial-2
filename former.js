@@ -10,6 +10,7 @@ const total=document.getElementById('TotalInput');
 const produs=[];
 const sheetsProdus=[];
 var products ="";
+
 function traerElementos(opcion){
   
   if (opcion) {
@@ -19,6 +20,7 @@ function traerElementos(opcion){
     products = "";
   }
 }
+
 function mostrarfav() {
 
   favi.innerHTML = "";
@@ -106,7 +108,7 @@ document.getElementById("form").addEventListener("submit", function (event) {
     var nombre = document.getElementById("nombre").value;
     var numero = document.getElementById("numero").value;
     var direccion = document.getElementById("direccion").value;
-    var valortotal = document.getElementById("result").value;
+    
 
     // Crea un objeto FormData para enviar los datos del formulario
     var formData = new FormData();
@@ -114,7 +116,7 @@ document.getElementById("form").addEventListener("submit", function (event) {
     formData.append("numero", numero);
     formData.append("direccion", direccion);
     formData.append("productosPedido", products);
-    formData.append("productosPedido", valortotal);
+   
     
 
     var object = {};
