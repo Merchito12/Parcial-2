@@ -1,61 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=5.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Formulario</title>
-    <meta charset="UFT-8">
-    <link rel="stylesheet" href="former.css">
-    
 </head>
+
 <body>
 
-    <main class="Contenido">
-        <section>
-            <form id="form" method="POST" action="https://script.google.com/macros/s/AKfycbxfVP6M5LAJH7E-gws572KP0dutYUPIFJJ2raJz1QtQgTDi3GVqJDsfMfW8NRNDkh1t/exec">
-                <h1 id="Titulo">
-                    Registro 
-                </h1>
+    <header class="menu">
+        <h2>RESTAURANTIS</h2>
+    </header>
+    <main >
+        <div class="caja-form">
+       
+                <form id="form" method="POST"
+                    action="https://script.google.com/macros/s/AKfycby8LoRQd_XmCsIRMngcTLwUCFeA9Eo7xhhMJCoYAwEeskKbuW2-7_B_bvf3_Xzxv770/exec">
+                    <h1 id="Titulo-form">
+                        Registro
+                    </h1>
+                    <div class="grupo">
+                        <label for="">Nombre:
+                            <input class="input" id="nombre" name="nombre">
+                        </label>
+                    </div>
+                    <div class="grupo">
+                        <label for="">Numero:
+                            <input class="input" id="numero" type="numero" placeholder="" name="Numero">
+                        </label>
+                    </div>
+                    <div class="grupo">
+                        <label for="">Email:
+                            <input class="input" id="direccion" name="direccion" type="email" placeholder="Email"
+                                required>
+                        </label>
+                    </div>
+                    <div class="grupo">
+                        <label for="">Productos:
+                            <article id="produs" name="Productos" type="text"></article>
+                        </label>
+                    </div>
 
-                <div class="grupo">
-                    <label for="">Nombre:
-                        <input type=""  name="Nombre">
-                    </label>
-                </div>
+                    <button id="send" type="submit">Enviar</button>
+                </form>
+            
+            <script type="module" src="former.js"></script>
+            <a id="casita" href="index.HTML"><i class="fa-solid fa-house"></i></a>
+        </div>
+        <div class="favoritos">
+            <h1>Carrito de compras</h1>
+           
+            <section id="result">0</section>
+            <span>Eliminar</span>
+            <button id="eliminar"> <i class="fa-solid fa-trash"></i></button>
+            <br>
 
-                <div class="grupo">
-                    <label for="">Numero:
-                        <input type="Numero"  placeholder="" name="Numero">
-                    </label>
-                </div>
-
-                <div class="grupo">
-                    <label for="">Email:
-                        <input name="Email" type="email" placeholder="Email" required>
-                    </label>
-                </div>
-
-                <input type="hidden" id="productosInput" name="Productos">
-                <input type="hidden" id="TotalInput" name="Total">
-
-                <div class="grupo">
-                    <label for="">productos:
-                        <article id="produs" name="Productos" type="text">
-
-                        </article>
-                    </label>
-                </div>
-
-                <br>
-                <button id="send" type="submit">Send</button>
-                <br>
-                <a href="index.HTML">REGRESA</a>
-            </form>
-
-            <script  type="module"  src="former.js"></script>
-        </section>
-        
-        
+            <section id="favs"></section>
+        </div>
     </main>
-
 </body>
-</html>
