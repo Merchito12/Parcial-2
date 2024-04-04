@@ -232,7 +232,9 @@ function entrada() {
 
     })
 }
-window.onload = buscarc(), send();
-
+window.onload =()=>{ 
+    buscarc();
+     send();
+     mostrarfav();
+    }
 //export {pedidos};//para llevar info a otro archivo
-window.onload = mostrarfav();
