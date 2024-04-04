@@ -1,3 +1,4 @@
+//import{pedidos} from "./main.js";
 const productos=document.getElementById('produs');
 const form=document.getElementById('form');
 const productosInput = document.getElementById('productosInput');
@@ -9,18 +10,28 @@ function traerElementos()
     let key;
     let valor;
     let objeto;
+    let mayor=0;
     for(let i=1;i<localStorage.length;i++)
     {
-        key=localStorage.key(i);//obtenemos la key
+      if(i>mayor)
+      {
+        key=localStorage.key(mayor);//obtenemos la key
         valor=localStorage.getItem(key);//la pasamos
-        objeto=JSON.parse(valor);//parseamos el elemento a JSON
+        objeto=JSON.parse(valor);//parseamos el elemento a JSON  
+      }
+        
     } 
     console.log(objeto);
-    const nameValue=objeto[0].Name;//obtenemos el nombre y lo colocamos en el 
+    for(let j=0;j<objeto.length;j++)
+    {
+      const nameValue=objeto[j].Name;//obtenemos el nombre y lo colocamos en el 
+      produs.push(nameValue);//lo agregamos al array donde mostraremos en el documento
+
+    }
+    
     const totalValue=objeto[objeto.length -1].Total;
     console.log(totalValue);
-    produs.push(nameValue);//lo agregamos al array donde mostraremos en el documento
-        
+   
     const nombre=document.createTextNode(produs);
     console.log(nombre.textContent);
     productos.appendChild(nombre);
@@ -53,4 +64,7 @@ function doPost()
     });
 }
 
-window.onload=traerElementos(),doPost();
+window.onload=()=>{
+  traerElementos();
+  doPost();
+}

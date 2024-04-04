@@ -18,7 +18,7 @@ const enviar=document.getElementById('Enviar');
 const foodInput = document.getElementById('input');
 const foodList = document.getElementById('foodlList');
 const entradas=document.getElementById('entrad');
-const pedidos=[];
+let pedidos=[];
 
 
 /*
@@ -61,7 +61,7 @@ function buscarc() {
 
 
 }
-function guardarLocal(opcion) 
+export function guardarLocal(opcion) 
 {
     favi.innerHTML = "";
     const idFood = opcion.ID;
@@ -77,8 +77,8 @@ function guardarLocal(opcion)
     pedidos.push(elemfavo);
     console.log(pedidos);
     localStorage.setItem(idFood, JSON.stringify(pedidos))
-    alert(`Se ha agregado al carrito el cóctel: ${nombre}!`);
-    let ids = localStorage.getItem(idFood)
+    alert(`Se ha agregado al carrito el alimento: ${nombre}!`);
+    //let ids = localStorage.getItem(idFood)
     //mostrarfav();
 }
 function mostrarfav() {
@@ -296,7 +296,11 @@ function entrada()
 
     })
 }
-window.onload = buscarc(),send();
+//window.onload = buscarc(),send();
+window.onload=()=>{
+    buscarc();
+    send();
+}
 
 //export {pedidos};//para llevar info a otro archivo
 //window.onload = buscarc(), mostrarfav();
