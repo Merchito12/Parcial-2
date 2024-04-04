@@ -65,7 +65,6 @@ function buscarc() {
                         const categoriaOpcion = document.createElement('p');
                         categoriaOpcion.textContent = `Categoría: ${opcion.Categoria}`;
                         article.appendChild(categoriaOpcion);
-
                        
 
                         const descripcionOpcion = document.createElement('p');
